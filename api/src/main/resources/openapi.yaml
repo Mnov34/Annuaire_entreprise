@@ -1,0 +1,408 @@
+openapi: 3.0.3
+info:
+  title: API Componize
+  version: 1.0.0
+  description: >
+    API pour la gestion de l'authentification (login, logout, récupération et réinitialisation de mot de passe),
+    des employés, des services et des sites.
+servers:
+  - url: http://localhost:8080
+    description: Serveur local
+
+tags:
+  - name: Authentification
+    description: "Endpoints relatifs à l'authentification (login, logout, récupération et réinitialisation de mot de passe)"
+  - name: Employés
+    description: "Endpoints pour gérer les employés"
+  - name: Services
+    description: "Endpoints pour gérer les services des employés"
+  - name: Sites
+    description: "Endpoints pour gérer les sites"
+
+paths:
+  /api/auth/login:
+    post:
+      tags:
+        - Authentification
+      summary: "Connexion utilisateur"
+      description: "Permet à un utilisateur de se connecter."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDto"
+      responses:
+        "200":
+          description: "Connexion réussie, retourne les informations de l'utilisateur."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/auth/logout:
+    post:
+      tags:
+        - Authentification
+      summary: "Déconnexion utilisateur"
+      description: >
+        Déconnecte l'utilisateur en appelant le service de déconnexion.
+        Dans un contexte JWT stateless, cette opération vide le contexte de sécurité.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDto"
+      responses:
+        "200":
+          description: "Déconnexion réussie."
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/auth/forgot-password:
+    post:
+      tags:
+        - Authentification
+      summary: "Lancer la récupération de mot de passe"
+      description: >
+        Envoie un lien de réinitialisation du mot de passe à l'adresse email fournie.
+        Indépendamment des erreurs, un message générique est retourné pour ne pas divulguer d'informations sensibles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+      responses:
+        "200":
+          description: >
+            Si l'adresse email existe, un lien de réinitialisation a été envoyé.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Si l'adresse email existe, un lien de réinitialisation a été envoyé."
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/auth/reset-password:
+    post:
+      tags:
+        - Authentification
+      summary: "Réinitialiser le mot de passe"
+      description: "Permet de changer le mot de passe en utilisant un token de réinitialisation."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+      responses:
+        "200":
+          description: "Mot de passe réinitialisé avec succès."
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Le mot de passe a été réinitialisé avec succès."
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/employees:
+    get:
+      tags:
+        - Employés
+      summary: "Récupérer tous les employés"
+      description: "Retourne une liste de tous les employés."
+      responses:
+        "200":
+          description: "Liste des employés."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EmployeeDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+    post:
+      tags:
+        - Employés
+      summary: "Créer un nouvel employé"
+      description: "Crée un nouvel employé."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeDto"
+      responses:
+        "200":
+          description: "Employé créé avec succès."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/employees/{id}:
+    get:
+      tags:
+        - Employés
+      summary: "Récupérer un employé par ID"
+      description: "Retourne les informations d'un employé identifié par son ID."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "ID de l'employé"
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Employé trouvé."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+    put:
+      tags:
+        - Employés
+      summary: "Mettre à jour un employé"
+      description: "Met à jour les informations d'un employé existant."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "ID de l'employé à mettre à jour"
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeDto"
+      responses:
+        "200":
+          description: "Employé mis à jour avec succès."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+    delete:
+      tags:
+        - Employés
+      summary: "Supprimer un employé"
+      description: "Supprime un employé par son ID."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "ID de l'employé à supprimer"
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: "Employé supprimé avec succès."
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/services:
+    get:
+      tags:
+        - Services
+      summary: "Récupérer tous les services des employés"
+      description: "Retourne une liste de tous les services disponibles."
+      responses:
+        "200":
+          description: "Liste des services."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EmployeeServiceDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/sites:
+    get:
+      tags:
+        - Sites
+      summary: "Récupérer tous les sites"
+      description: "Retourne une liste de tous les sites."
+      responses:
+        "200":
+          description: "Liste des sites."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SiteDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+    post:
+      tags:
+        - Sites
+      summary: "Créer un site"
+      description: "Crée un nouveau site."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SiteDto"
+      responses:
+        "200":
+          description: "Site créé avec succès."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+  /api/sites/{id}:
+    put:
+      tags:
+        - Sites
+      summary: "Mettre à jour un site"
+      description: "Met à jour les informations d'un site existant."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "ID du site à mettre à jour"
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SiteDto"
+      responses:
+        "200":
+          description: "Site mis à jour avec succès."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteDto"
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+    delete:
+      tags:
+        - Sites
+      summary: "Supprimer un site"
+      description: "Supprime un site par son ID."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "ID du site à supprimer"
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: "Site supprimé avec succès."
+        default:
+          $ref: "#/components/responses/ErreurGenerique"
+
+components:
+  schemas:
+    UserDto:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "john.doe"
+        password:
+          type: string
+          example: "motDePasseSecret"
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: "utilisateur@example.com"
+    ResetPasswordRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "abc123token"
+        newPassword:
+          type: string
+          example: "nouveauMotDePasse"
+    EmployeeDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: "Jean"
+        lastName:
+          type: string
+          example: "Dupont"
+        email:
+          type: string
+          format: email
+          example: "jean.dupont@example.com"
+    EmployeeServiceDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        serviceName:
+          type: string
+          example: "Support"
+    SiteDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        siteName:
+          type: string
+          example: "Site de Paris"
+        location:
+          type: string
+          example: "Paris"
+  responses:
+    ErreurGenerique:
+      description: "Erreur inattendue"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+                example: "2025-02-14T11:05:06Z"
+              status:
+                type: integer
+                example: 500
+              error:
+                type: string
+                example: "Erreur Interne du Serveur"
+              message:
+                type: string
+                example: "Une erreur inattendue est survenue. Veuillez réessayer plus tard."
+              path:
+                type: string
+                example: "/api/auth/login"
