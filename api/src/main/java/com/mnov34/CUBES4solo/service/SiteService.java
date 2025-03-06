@@ -9,7 +9,6 @@ import java.util.List;
  * @author Maël NOUVEL <br>
  * 02/2025
  **/
-@Service
 public interface SiteService {
 
     List<SiteDto> getAllSites();

@@ -10,5 +10,5 @@ import java.util.Optional;
  * 02/2025
  **/
 public interface SiteRepository extends JpaRepository<Site, Long> {
-    Optional<Site> findByCity(String city);
+    Optional<Site> findBySite(String city);
 }

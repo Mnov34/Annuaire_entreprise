@@ -5,6 +5,7 @@ import com.mnov34.CUBES4solo.mapper.SiteMapper;
 import com.mnov34.CUBES4solo.model.Site;
 import com.mnov34.CUBES4solo.repository.SiteRepository;
 import com.mnov34.CUBES4solo.service.SiteService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * @author Maël NOUVEL <br>
  * 02/2025
  **/
+@Service
 public class SiteServiceImpl implements SiteService {
 
     private final SiteRepository siteRepository;

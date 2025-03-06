@@ -1,19 +1,17 @@
 version: '3.8'
 services:
-  postgres:
+  mariadb:
     image: mariadb:10.6
     restart: always
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: cubes4solo_db
+      MARIADB_USER: root
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DB: cubes4solo_db
     ports:
       - "3306:3306"
     volumes:
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./docker/data.json:/docker-entrypoint-initdb.d/data.json
       - mariadb_data:/var/lib/mysql
-
 
   api:
     build: ./api
@@ -25,6 +23,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/cubes4solo_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.MariaDBDialect
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
 
 volumes:
   mariadb_data:

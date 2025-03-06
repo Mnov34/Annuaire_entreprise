@@ -6,26 +6,26 @@ DROP TABLE IF EXISTS sites CASCADE;
 
 -- Create the 'sites' table
 CREATE TABLE sites (
-                       id SERIAL PRIMARY KEY,
+                       id INT PRIMARY KEY AUTO_INCREMENT,
                        site VARCHAR(255) NOT NULL
 );
 
 -- Create the 'services' table
 CREATE TABLE services (
-                          id SERIAL PRIMARY KEY,
+                          id INT PRIMARY KEY AUTO_INCREMENT,
                           service_name VARCHAR(255) NOT NULL
 );
 
 -- Create the 'users' table
 CREATE TABLE users (
-                       id SERIAL PRIMARY KEY,
+                       id INT PRIMARY KEY AUTO_INCREMENT,
                        email VARCHAR(255) NOT NULL UNIQUE,
                        password VARCHAR(255) NOT NULL
 );
 
 -- Create the 'employees' table with foreign keys to 'services' and 'sites'
 CREATE TABLE employees (
-                           id SERIAL PRIMARY KEY,
+                           id INT PRIMARY KEY AUTO_INCREMENT,
                            first_name VARCHAR(255) NOT NULL,
                            last_name VARCHAR(255) NOT NULL,
                            phone VARCHAR(255),
