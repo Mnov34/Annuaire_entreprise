@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Maël NOUVEL <br>
@@ -15,7 +16,7 @@ import java.util.List;
 public interface ApiClient {
     // Auth
     @GET("/api/auth/login")
-    Call<String> login(@Header("Authorization") String auth);
+    Call<Map<String, String>> login(@Header("Authorization") String auth);
 
 
     // Employees

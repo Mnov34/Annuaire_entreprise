@@ -1,5 +1,6 @@
 package com.mnov34.CUBES4solo;
 
+import com.mnov34.CUBES4solo.user.LocalUserData;
 import com.mnov34.CUBES4solo.util.SceneManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -33,6 +34,8 @@ public class JavaFxApplicationSupport extends Application {
     public void start(Stage primaryStage) {
         instance = this;
         sceneManager = springContext.getBean(SceneManager.class);
+
+        LocalUserData.setProperty("isLogged", "false");
 
         createScene(primaryStage);
     }

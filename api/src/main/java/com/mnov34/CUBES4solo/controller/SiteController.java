@@ -29,10 +29,14 @@ public class SiteController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Site> getSiteById(@PathVariable("id") Long id) { return siteService.getSiteById(id); }
+    public Optional<Site> getSiteById(@PathVariable("id") Long id) {
+        return siteService.getSiteById(id);
+    }
 
     @GetMapping("search/{name}")
-    public Optional<Site> getSiteByName(@PathVariable("name") String name) { return siteService.getSiteByName(name); }
+    public Optional<Site> getSiteByName(@PathVariable("name") String name) {
+        return siteService.getSiteByName(name);
+    }
 
     @PostMapping
     public Site createSite(@RequestBody Site site) {
@@ -40,12 +44,12 @@ public class SiteController {
     }
 
     @PutMapping("/{id}")
-    public Site updateSite(@PathVariable Long id, @RequestBody Site site) {
+    public Site updateSite(@PathVariable("id") Long id, @RequestBody Site site) {
         return siteService.updateSite(id, site);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSite(@PathVariable Long id) {
+    public void deleteSite(@PathVariable("id") Long id) {
         siteService.deleteSite(id);
     }
 }

@@ -2,6 +2,8 @@ package com.mnov34.CUBES4solo.controller;
 
 import com.mnov34.CUBES4solo.annotation.FXMLController;
 import com.mnov34.CUBES4solo.api.ApiClient;
+import com.mnov34.CUBES4solo.api.AuthInterceptor;
+import com.mnov34.CUBES4solo.user.LocalUserData;
 import com.mnov34.CUBES4solo.util.SceneManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ import retrofit2.Retrofit;
 
 import java.net.URL;
 import java.util.Base64;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -59,12 +62,15 @@ public class LoginFXController implements Initializable {
         String credentials = username + ":" + password;
         String basicAuth = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
 
-        apiClient.login(basicAuth).enqueue(new Callback<String>() {
-            public void onResponse(Call<String> call, Response<String> response) {
+        apiClient.login(basicAuth).enqueue(new Callback<Map<String, String>>() {
+            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
                 if (response.isSuccessful()) {
+                    AuthInterceptor.setAuthHeader(basicAuth);
                     Platform.runLater(() -> {
-                        messageLabel.setText("Login successful!");
+                        assert response.body() != null;
+                        messageLabel.setText(response.body().get("message"));
                         sceneManager.loadView(SceneManager.SceneType.EMPLOYEE_LIST);
+                        LocalUserData.setProperty("isLogged", "true");
                     });
                 } else {
                     Platform.runLater(() -> messageLabel.setText("Invalid credentials."));
@@ -72,7 +78,7 @@ public class LoginFXController implements Initializable {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
                 log.error("Login error:{}", t.getMessage());
                 Platform.runLater(() -> messageLabel.setText("Login error: " + t.getMessage()));
             }

@@ -28,9 +28,4 @@ public class User {
 
     @Column(name = "role", nullable = false)
     private String role;
-
-    @OneToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
-
 }

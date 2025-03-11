@@ -5,6 +5,7 @@ import com.mnov34.CUBES4solo.api.ApiClient;
 import com.mnov34.CUBES4solo.model.Department;
 import com.mnov34.CUBES4solo.model.Employee;
 import com.mnov34.CUBES4solo.model.Site;
+import com.mnov34.CUBES4solo.user.LocalUserData;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -336,6 +337,11 @@ public class EmployeeListFXController implements Initializable {
     }
 
     private void handleDeleteEmployee(Employee employee) {
+        if (LocalUserData.getProperty("isLogged").equals("false")) {
+            showError("Failed to delete employee\nYou are not logged in");
+            return;
+        }
+
         employeeApiService.deleteEmployee(employee.getId()).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -377,6 +383,19 @@ public class EmployeeListFXController implements Initializable {
             alert.showAndWait();
         } else {
             Platform.runLater(() -> showError(message, throwable));
+        }
+    }
+
+    private void showError(String message) {
+        if (Platform.isFxApplicationThread()) {
+            log.error(message);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("");
+            alert.setContentText(message);
+            alert.showAndWait();
+        } else {
+            Platform.runLater(() -> showError(message));
         }
     }
 }
