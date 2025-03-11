@@ -31,7 +31,7 @@ public class SiteController {
     @GetMapping("/{id}")
     public Optional<Site> getSiteById(@PathVariable("id") Long id) { return siteService.getSiteById(id); }
 
-    @GetMapping("/{name}")
+    @GetMapping("search/{name}")
     public Optional<Site> getSiteByName(@PathVariable("name") String name) { return siteService.getSiteByName(name); }
 
     @PostMapping

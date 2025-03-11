@@ -23,9 +23,6 @@ public class SecurityConfig {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-
     public SecurityConfig(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

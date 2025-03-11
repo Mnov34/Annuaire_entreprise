@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.layout.*?>
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="498.0" prefWidth="781.0"
+      VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.mnov34.CUBES4solo.controller.DepartmentFXController">
-    <SplitPane>
+    <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+               VBox.vgrow="ALWAYS">
         <TableView fx:id="departmentTable" prefHeight="200.0" prefWidth="200.0">
             <columns>
                 <TableColumn fx:id="departmentIdColumn" text="ID"/>
                 <TableColumn fx:id="departmentNameColumn" text="Nom"/>
-                <TableColumn fx:id="editColumn" text="Modifier" styleClass="table-column"/>
-                <TableColumn fx:id="deleteColumn" text="Supprimer" styleClass="table-column"/>
+                <TableColumn fx:id="editColumn" styleClass="table-column" text="Modifier"/>
+                <TableColumn fx:id="deleteColumn" styleClass="table-column" text="Supprimer"/>
             </columns>
         </TableView>
         <VBox spacing="15.0">
@@ -19,7 +20,7 @@
                 <Label styleClass="form-label" text="Nom"/>
                 <TextField fx:id="departmentNameField" promptText="Nom du service"/>
             </VBox>
-            <Button fx:id="addButton" text="Ajouter" onAction="#handleAddDepartment" styleClass="button"/>
+            <Button fx:id="addButton" onAction="#handleAddDepartment" styleClass="button" text="Ajouter"/>
         </VBox>
     </SplitPane>
 </VBox>

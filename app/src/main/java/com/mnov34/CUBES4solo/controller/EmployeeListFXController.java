@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,9 +63,11 @@ public class EmployeeListFXController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
         loadFilterOptions();
+        loadFormOptions();
         refreshData();
         setupCellFactories();
         setupListeners();
+        setupComboConverters();
     }
 
     @FXML
@@ -133,6 +136,33 @@ public class EmployeeListFXController implements Initializable {
         });
     }
 
+    private void setupComboConverters() {
+        siteCombo.setConverter(new StringConverter<Site>() {
+            @Override
+            public String toString(Site site) {
+                return site != null ? site.getSite() : "";
+            }
+
+            @Override
+            public Site fromString(String string) {
+                // Not used in this context
+                return null;
+            }
+        });
+
+        departmentCombo.setConverter(new StringConverter<Department>() {
+            @Override
+            public String toString(Department dept) {
+                return dept != null ? dept.getDepartmentName() : "";
+            }
+
+            @Override
+            public Department fromString(String string) {
+                return null;
+            }
+        });
+    }
+
     private void loadFilterOptions() {
         employeeApiService.getSites().enqueue(new Callback<>() {
             @Override
@@ -169,6 +199,35 @@ public class EmployeeListFXController implements Initializable {
         });
     }
 
+    private void loadFormOptions() {
+        employeeApiService.getSites().enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<List<Site>> call, Response<List<Site>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Platform.runLater(() -> siteCombo.getItems().setAll(response.body()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Site>> call, Throwable t) {
+                showError("Failed to load site options", t);
+            }
+        });
+        employeeApiService.getServices().enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<List<Department>> call, Response<List<Department>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Platform.runLater(() -> departmentCombo.getItems().setAll(response.body()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Department>> call, Throwable t) {
+                showError("Failed to load department options", t);
+            }
+        });
+    }
+
     private void refreshData() {
         employeeApiService.getEmployees(
                 searchField.getText(),
@@ -183,6 +242,8 @@ public class EmployeeListFXController implements Initializable {
                         selectedEmployee = null;
                         addButton.setText("Ajouter");
                     });
+                } else {
+                    showError("Failed to refresh employee list", new RuntimeException("Response code: " + response.code()));
                 }
             }
 
@@ -228,6 +289,8 @@ public class EmployeeListFXController implements Initializable {
                         refreshData();
                         clearForm();
                     });
+                } else {
+                    showError("Failed to create employee", new RuntimeException("Response code: " + response.code()));
                 }
             }
 

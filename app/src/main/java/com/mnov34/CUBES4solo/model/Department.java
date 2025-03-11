@@ -18,4 +18,9 @@ public class Department {
     public Department(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return departmentName;
+    }
 }

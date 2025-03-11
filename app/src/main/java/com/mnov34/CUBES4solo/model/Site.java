@@ -14,4 +14,9 @@ import lombok.NoArgsConstructor;
 public class Site {
     private Long id;
     private String site;
+
+    @Override
+    public String toString() {
+        return site;
+    }
 }

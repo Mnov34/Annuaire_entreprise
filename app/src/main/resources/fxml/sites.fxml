@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.mnov34.CUBES4solo.controller.SiteFXController">
-    <SplitPane>
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="506.0" prefWidth="771.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mnov34.CUBES4solo.controller.SiteFXController">
+    <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
         <TableView fx:id="siteTable" prefHeight="200.0" prefWidth="200.0">
             <columns>
                 <TableColumn fx:id="siteIdColumn" text="ID"/>
@@ -19,7 +18,7 @@
                 <Label text="Nom"/>
                 <TextField fx:id="siteNameField" promptText="Nom du site"/>
             </VBox>
-            <Button fx:id="addButton" text="Ajouter" onAction="#handleAddSite"/>
+            <Button fx:id="addButton" onAction="#handleAddSite" text="Ajouter"/>
         </VBox>
     </SplitPane>
 </VBox>

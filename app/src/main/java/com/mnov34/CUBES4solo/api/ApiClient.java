@@ -13,6 +13,11 @@ import java.util.List;
  * 02/2025
  **/
 public interface ApiClient {
+    // Auth
+    @GET("/api/auth/login")
+    Call<String> login(@Header("Authorization") String auth);
+
+
     // Employees
     @GET("/api/employees")
     Call<List<Employee>> getEmployees(
@@ -38,7 +43,7 @@ public interface ApiClient {
     @GET("/api/sites/{id}")
     Call<Site> getSiteById(@Path("id") String id);
 
-    @GET("/api/sites/{name}")
+    @GET("/api/sites/search/{name}")
     Call<Site> getSiteByName(@Path("name") String name);
 
     @POST("/api/sites")
