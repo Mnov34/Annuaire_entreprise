@@ -67,10 +67,10 @@ public class LoginFXController implements Initializable {
                 if (response.isSuccessful()) {
                     AuthInterceptor.setAuthHeader(basicAuth);
                     Platform.runLater(() -> {
+                        LocalUserData.setProperty("isLogged", "true");
                         assert response.body() != null;
                         messageLabel.setText(response.body().get("message"));
                         sceneManager.loadView(SceneManager.SceneType.EMPLOYEE_LIST);
-                        LocalUserData.setProperty("isLogged", "true");
                     });
                 } else {
                     Platform.runLater(() -> messageLabel.setText("Invalid credentials."));

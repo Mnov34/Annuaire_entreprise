@@ -5,7 +5,6 @@ import com.mnov34.CUBES4solo.api.ApiClient;
 import com.mnov34.CUBES4solo.model.Department;
 import com.mnov34.CUBES4solo.model.Employee;
 import com.mnov34.CUBES4solo.model.Site;
-import com.mnov34.CUBES4solo.user.LocalUserData;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,10 +62,10 @@ public class EmployeeListFXController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
+        setupCellFactories();
         loadFilterOptions();
         loadFormOptions();
         refreshData();
-        setupCellFactories();
         setupListeners();
         setupComboConverters();
     }
@@ -230,11 +229,12 @@ public class EmployeeListFXController implements Initializable {
     }
 
     private void refreshData() {
-        employeeApiService.getEmployees(
-                searchField.getText(),
-                siteFilter.getValue(),
-                serviceFilter.getValue()
-        ).enqueue(new Callback<>() {
+        String lastNameQuery = searchField.getText();
+        String selectedSite = siteFilter.getValue();
+        String selectedDepartment = serviceFilter.getValue();
+
+
+        employeeApiService.getEmployees(lastNameQuery, selectedSite, selectedDepartment).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<List<Employee>> call, Response<List<Employee>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -337,10 +337,6 @@ public class EmployeeListFXController implements Initializable {
     }
 
     private void handleDeleteEmployee(Employee employee) {
-        if (LocalUserData.getProperty("isLogged").equals("false")) {
-            showError("Failed to delete employee\nYou are not logged in");
-            return;
-        }
 
         employeeApiService.deleteEmployee(employee.getId()).enqueue(new Callback<>() {
             @Override
