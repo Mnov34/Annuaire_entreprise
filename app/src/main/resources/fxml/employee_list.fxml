@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.mnov34.CUBES4solo.controller.EmployeeListController"
-      spacing="10" alignment="TOP_CENTER">
-    <Label text="Employee Directory" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-    <HBox spacing="10">
-        <Button text="Admin Panel" onAction="#handleAdminPanel" fx:id="adminButton"/>
-        <TextField fx:id="searchField" promptText="Search by name"/>
-        <ComboBox fx:id="siteFilter" promptText="Filter by site"/>
-        <ComboBox fx:id="serviceFilter" promptText="Filter by service"/>
-        <Button text="Search" onAction="#handleSearch"/>
-        <Button text="Refresh" onAction="#handleRefresh"/>
+      styleClass="container" spacing="10" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+    <HBox styleClass="toolbar" spacing="10">
+        <TextField fx:id="searchField" promptText="Search by name" styleClass="search-field"/>
+        <ComboBox fx:id="siteFilter" promptText="Filter by site" styleClass="combo-box"/>
+        <ComboBox fx:id="serviceFilter" promptText="Filter by service" styleClass="combo-box"/>
+        <Button text="Refresh" fx:id="refreshButton" onAction="#handleRefresh" styleClass="button"/>
     </HBox>
     <SplitPane dividerPositions="0.75" VBox.vgrow="ALWAYS">
-        <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
+        <TableView fx:id="userTable" VBox.vgrow="ALWAYS" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="lastNameColumn" text="Nom"/>
-                <TableColumn fx:id="firstNameColumn" text="Prénom"/>
-                <TableColumn fx:id="phoneColumn" text="Numéro de téléphone"/>
-                <TableColumn fx:id="siteColumn" text="Site"/>
-                <TableColumn fx:id="editColumn" text="Modifier"/>
-                <TableColumn fx:id="deleteColumn" text="Supprimer"/>
+                <TableColumn fx:id="lastNameColumn" text="Nom" styleClass="table-column"/>
+                <TableColumn fx:id="firstNameColumn" text="Prénom" styleClass="table-column"/>
+                <TableColumn fx:id="phoneColumn" text="Numéro de téléphone fixe" styleClass="table-column"/>
+                <TableColumn fx:id="mobilePhoneColumn" text="Numéro de téléphone mobile" styleClass="table-column"/>
+                <TableColumn fx:id="emailColumn" text="Email" styleClass="table-column"/>
+                <TableColumn fx:id="siteColumn" text="Site" styleClass="table-column"/>
+                <TableColumn fx:id="departmentColumn" text="Service" styleClass="table-column"/>
+                <TableColumn fx:id="editColumn" text="Modifier" styleClass="table-column"/>
+                <TableColumn fx:id="deleteColumn" text="Supprimer" styleClass="table-column"/>
             </columns>
         </TableView>
 
-        <VBox spacing="10.0">
-            <HBox.margin>
-                <Insets top="15.0"/>
-            </HBox.margin>
+        <VBox spacing="15.0">
             <VBox>
                 <Label styleClass="form-label" text="Nom"/>
                 <TextField fx:id="lastNameField" promptText="Nom de l'utilisateur"/>
@@ -41,15 +37,23 @@
                 <TextField fx:id="firstNameField" promptText="Prénom de l'utilisateur"/>
             </VBox>
             <VBox>
-                <Label styleClass="form-label" text="Numéro de téléphone"/>
-                <TextField fx:id="phoneField" promptText="Numéro de téléphone"/>
+                <Label styleClass="form-label" text="Numéro de téléphone fixe"/>
+                <TextField fx:id="phoneField" promptText="Numéro de téléphone fixe"/>
+            </VBox>
+            <VBox>
+                <Label styleClass="form-label" text="Numéro de téléphone mobile"/>
+                <TextField fx:id="mobilePhoneField" promptText="Numéro de téléphone mobile"/>
+            </VBox>
+            <VBox>
+                <Label styleClass="form-label" text="email"/>
+                <TextField fx:id="emailField" promptText="Adresse Email"/>
             </VBox>
             <VBox>
                 <Label styleClass="form-label" text="Site"/>
-                <TextField fx:id="siteField" promptText="Site"/>
+                <ComboBox fx:id="siteCombo" promptText="Site"/>
             </VBox>
-            <ComboBox fx:id="userComboBox" promptText="Famille"/>
-            <Button fx:id="addButton" text="Ajouter"/>
+            <ComboBox fx:id="departmentCombo" promptText="Department" styleClass="combo-box"/>
+            <Button fx:id="addButton" text="Ajouter" onAction="#handleAddEmployee" styleClass="button"/>
         </VBox>
     </SplitPane>
 </VBox>

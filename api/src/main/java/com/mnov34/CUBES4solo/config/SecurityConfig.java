@@ -18,13 +18,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(Customizer.withDefaults()).authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/employees").permitAll()
+                        .requestMatchers("/api/sites").permitAll()
+                        .requestMatchers("/api/services").permitAll()
                         .requestMatchers("/api/auth/**").permitAll() // Endpoints publics
                         .requestMatchers("/api/guest/**").permitAll() // Endpoints publics
                         .requestMatchers("/api/admin/**").hasAuthority("SCOPE_admin") // Endpoints admin uniquement
                         .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(Customizer.withDefaults())
                 );
         return http.build();
     }

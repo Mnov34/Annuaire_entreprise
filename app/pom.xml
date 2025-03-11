@@ -19,6 +19,14 @@
     </properties>
 
     <dependencies>
+        <!-- LOMBOK -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+        </dependency>
+
+        <!-- RETROFIT -->
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
@@ -57,6 +65,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- CSSFX -->
+        <dependency>
+            <groupId>org.fxmisc.cssfx</groupId>
+            <artifactId>cssfx</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -67,7 +83,6 @@
             </resource>
         </resources>
         <plugins>
-            <!-- JavaFX Maven plugin (optional) to package JavaFX applications -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -83,7 +98,6 @@
                     <mainClass>com.mnov34.CUBES4solo.Cubes4Application</mainClass>
                 </configuration>
             </plugin>
-            <!-- Spring Boot Maven plugin if you use Spring Boot in this module -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

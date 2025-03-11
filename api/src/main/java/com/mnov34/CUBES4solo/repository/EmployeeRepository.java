@@ -1,6 +1,8 @@
 package com.mnov34.CUBES4solo.repository;
 
+import com.mnov34.CUBES4solo.model.Department;
 import com.mnov34.CUBES4solo.model.Employee;
+import com.mnov34.CUBES4solo.model.Site;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,9 +12,15 @@ import java.util.List;
  * 02/2025
  **/
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    List<Employee> findByLastNameContainingIgnoreCase(String partialName);
+    List<Employee> findByFirstNameContainingIgnoreCase(String firstName);
+
+    List<Employee> findByLastNameContainingIgnoreCase(String lastName);
+
+    List<Employee> findByDepartmentId(Long serviceId);
 
     List<Employee> findBySiteId(Long siteId);
 
-    List<Employee> findByServiceId(Long serviceId);
+    boolean existsByDepartment(Department department);
+
+    boolean existsBySite(Site site);
 }

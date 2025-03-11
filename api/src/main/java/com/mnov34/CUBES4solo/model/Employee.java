@@ -1,5 +1,7 @@
 package com.mnov34.CUBES4solo.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Employee {
 
     @Id
@@ -26,18 +29,18 @@ public class Employee {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "phone")
+    @Column(name = "phone", length = 15)
     private String phone;
 
-    @Column(name = "mobile_phone")
+    @Column(name = "mobile_phone", length = 15)
     private String mobilePhone;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
-    private EmployeeService service;
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
     @ManyToOne
     @JoinColumn(name = "site_id", nullable = false)

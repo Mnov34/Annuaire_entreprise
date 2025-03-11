@@ -1,9 +1,8 @@
 package com.mnov34.CUBES4solo.controller;
 
-import com.mnov34.CUBES4solo.dto.EmployeeDto;
+import com.mnov34.CUBES4solo.model.Employee;
 import com.mnov34.CUBES4solo.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,26 +24,26 @@ public class EmployeeController {
 
     @Operation(summary = "Get all employees")
     @GetMapping()
-    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+    public ResponseEntity<List<Employee>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
     // Retrieve a single employee by ID
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
 
     @Operation(summary = "Create a new employee")
     @PostMapping()
-    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
-        EmployeeDto createdEmployee = employeeService.createEmployee(employeeDto);
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee Employee) {
+        Employee createdEmployee = employeeService.createEmployee(Employee);
         return ResponseEntity.ok(createdEmployee);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
-        EmployeeDto updatedEmployee = employeeService.updateEmployee(id, employeeDto);
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee Employee) {
+        Employee updatedEmployee = employeeService.updateEmployee(id, Employee);
         return ResponseEntity.ok(updatedEmployee);
     }
 

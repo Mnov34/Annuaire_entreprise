@@ -1,6 +1,6 @@
 package com.mnov34.CUBES4solo.service;
 
-import com.mnov34.CUBES4solo.dto.EmployeeDto;
+import com.mnov34.CUBES4solo.model.Employee;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  * 02/2025
  **/
 public interface EmployeeService {
-    List<EmployeeDto> getAllEmployees();
+    List<Employee> getAllEmployees();
 
-    EmployeeDto getEmployeeById(Long id);
+    Employee getEmployeeById(Long id);
 
-    EmployeeDto createEmployee(EmployeeDto employeeDto);
+    Employee createEmployee(Employee employee);
 
-    EmployeeDto updateEmployee(Long id, EmployeeDto employeeDto);
+    Employee updateEmployee(Long id, Employee employee);
 
     void deleteEmployeeById(Long id);
 }

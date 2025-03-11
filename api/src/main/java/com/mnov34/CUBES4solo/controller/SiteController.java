@@ -1,11 +1,12 @@
 package com.mnov34.CUBES4solo.controller;
 
-import com.mnov34.CUBES4solo.dto.SiteDto;
+import com.mnov34.CUBES4solo.model.Site;
 import com.mnov34.CUBES4solo.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Maël NOUVEL <br>
@@ -23,18 +24,24 @@ public class SiteController {
     }
 
     @GetMapping
-    public List<SiteDto> getAllSites() {
+    public List<Site> getAllSites() {
         return siteService.getAllSites();
     }
 
+    @GetMapping("/{id}")
+    public Optional<Site> getSiteById(@PathVariable("id") Long id) { return siteService.getSiteById(id); }
+
+    @GetMapping("/{name}")
+    public Optional<Site> getSiteByName(@PathVariable("name") String name) { return siteService.getSiteByName(name); }
+
     @PostMapping
-    public SiteDto createSite(@RequestBody SiteDto siteDto) {
-        return siteService.createSite(siteDto);
+    public Site createSite(@RequestBody Site site) {
+        return siteService.createSite(site);
     }
 
     @PutMapping("/{id}")
-    public SiteDto updateSite(@PathVariable Long id, @RequestBody SiteDto siteDto) {
-        return siteService.updateSite(id, siteDto);
+    public Site updateSite(@PathVariable Long id, @RequestBody Site site) {
+        return siteService.updateSite(id, site);
     }
 
     @DeleteMapping("/{id}")

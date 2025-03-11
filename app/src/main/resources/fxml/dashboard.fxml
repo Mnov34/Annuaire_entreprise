@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+<BorderPane fx:id="root" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mnov34.CUBES4solo.controller.DashboardController">
+    <left>
+        <AnchorPane fx:id="sidebarContainer">
+            <VBox styleClass="sidebar" BorderPane.alignment="CENTER">
+                <padding>
+                    <Insets top="40" left="28" bottom="40" right="28"/>
+                </padding>
+
+                <VBox styleClass="menu-tab" spacing="32.0">
+                    <!-- EMPLOYEES -->
+                    <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="sidebar-tab">
+                        <Button styleClass="button" mnemonicParsing="false" onAction="#loadEmployees" text="Salariés">
+                            <graphic>
+                                <FontIcon iconLiteral="bi-people"/>
+                            </graphic>
+                        </Button>
+                    </HBox>
+
+                    <!-- SITES -->
+                    <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="sidebar-tab">
+                        <Button styleClass="button" mnemonicParsing="false" onAction="#loadSites" text="Sites">
+                            <graphic>
+                                <FontIcon iconLiteral="bi-geo-alt"/>
+                            </graphic>
+                        </Button>
+                    </HBox>
+
+                    <!-- DEPARTMENTS -->
+                    <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="sidebar-tab">
+                        <Button styleClass="button" mnemonicParsing="false" onAction="#loadDepartments" text="Services">
+                            <graphic>
+                                <FontIcon iconLiteral="bi-x-diamond"/>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </AnchorPane>
+    </left>
+    <top>
+        <AnchorPane nodeOrientation="RIGHT_TO_LEFT" styleClass="background" BorderPane.alignment="CENTER_RIGHT">
+            <VBox alignment="TOP_RIGHT" styleClass="menu-tab">
+                <Label fx:id="currentViewTitle" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                <StackPane.margin>
+                    <Insets bottom="45.0" left="45.0" right="45.0" top="45.0"/>
+                </StackPane.margin>
+                <StackPane alignment="CENTER_RIGHT" maxHeight="45.0" minHeight="45.0">
+                    <HBox alignment="CENTER_RIGHT" spacing="4.0">
+                        <Button text="Admin Panel" fx:id="adminButton" onAction="#handleAdminAccess"/>
+                        <padding>
+                            <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+                        </padding>
+                        <StackPane>
+                            <Button fx:id="pinButton" onAction="#handlePinButton" styleClass="top-bar-icon">
+                                <graphic>
+                                    <FontIcon fx:id="pinIcon" iconLiteral="bi-pin-fill" iconSize="18"/>
+                                </graphic>
+                            </Button>
+                        </StackPane>
+                    </HBox>
+                </StackPane>
+            </VBox>
+        </AnchorPane>
+    </top>
+    <center>
+        <AnchorPane fx:id="mainContentArea" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0"
+                    BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+        </AnchorPane>
+    </center>
+</BorderPane>

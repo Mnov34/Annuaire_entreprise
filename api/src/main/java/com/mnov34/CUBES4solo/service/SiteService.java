@@ -1,21 +1,24 @@
 package com.mnov34.CUBES4solo.service;
 
-import com.mnov34.CUBES4solo.dto.SiteDto;
-import org.springframework.stereotype.Service;
+import com.mnov34.CUBES4solo.model.Site;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Maël NOUVEL <br>
  * 02/2025
  **/
 public interface SiteService {
+    List<Site> getAllSites();
 
-    List<SiteDto> getAllSites();
+    Optional<Site> getSiteById(Long id);
 
-    SiteDto createSite(SiteDto siteDto);
+    Optional<Site> getSiteByName(String name);
 
-    SiteDto updateSite(Long id, SiteDto siteDto);
+    Site createSite(Site Site);
+
+    Site updateSite(Long id, Site Site);
 
     void deleteSite(Long id);
 }

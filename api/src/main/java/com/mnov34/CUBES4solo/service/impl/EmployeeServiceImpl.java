@@ -1,7 +1,5 @@
 package com.mnov34.CUBES4solo.service.impl;
 
-import com.mnov34.CUBES4solo.dto.EmployeeDto;
-import com.mnov34.CUBES4solo.mapper.EmployeeMapper;
 import com.mnov34.CUBES4solo.model.Employee;
 import com.mnov34.CUBES4solo.repository.EmployeeRepository;
 import com.mnov34.CUBES4solo.service.EmployeeService;
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Maël NOUVEL <br>
@@ -18,54 +15,43 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
-        this.employeeMapper = employeeMapper;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<EmployeeDto> getAllEmployees() {
-        return employeeRepository.findAll().stream()
-                .map(employeeMapper::toDto)
-                .collect(Collectors.toList());
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 
-
-
-
     @Override
-    public EmployeeDto getEmployeeById(Long id) {
-        Employee employee = employeeRepository.findById(id)
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
-        return employeeMapper.toDto(employee);
     }
 
     @Override
-    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
-        Employee employee = employeeMapper.toEntity(employeeDto);
-        Employee savedEmployee = employeeRepository.saveAndFlush(employee);
-        return employeeMapper.toDto(savedEmployee);
+    public Employee createEmployee(Employee employee) {
+        return employeeRepository.saveAndFlush(employee);
     }
 
     @Override
-    public EmployeeDto updateEmployee(Long id, EmployeeDto employeeDto) {
+    public Employee updateEmployee(Long id, Employee Employee) {
 
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        existingEmployee.setFirstName(employeeDto.getFirstName());
-        existingEmployee.setLastName(employeeDto.getLastName());
-        existingEmployee.setPhone(employeeDto.getPhone());
-        existingEmployee.setMobilePhone(employeeDto.getMobilePhone());
-        existingEmployee.setEmail(employeeDto.getEmail());
-        existingEmployee.setSite(employeeMapper.mapSiteIdToSite(employeeDto.getSiteId()));
-        existingEmployee.setService(employeeMapper.mapServiceIdToService(employeeDto.getServiceId()));
+        existingEmployee.setFirstName(Employee.getFirstName());
+        existingEmployee.setLastName(Employee.getLastName());
+        existingEmployee.setPhone(Employee.getPhone());
+        existingEmployee.setMobilePhone(Employee.getMobilePhone());
+        existingEmployee.setEmail(Employee.getEmail());
+        existingEmployee.setSite(Employee.getSite());
+        existingEmployee.setDepartment(Employee.getDepartment());
 
-        Employee updatedEmployee = employeeRepository.saveAndFlush(existingEmployee);
-        return employeeMapper.toDto(updatedEmployee);
+        return employeeRepository.saveAndFlush(existingEmployee);
     }
 
     @Override

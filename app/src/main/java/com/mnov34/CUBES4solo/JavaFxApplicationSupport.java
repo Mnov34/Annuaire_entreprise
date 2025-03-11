@@ -3,6 +3,7 @@ package com.mnov34.CUBES4solo;
 import com.mnov34.CUBES4solo.util.SceneManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import lombok.Getter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -12,6 +13,16 @@ public class JavaFxApplicationSupport extends Application {
 
     private static ConfigurableApplicationContext springContext;
 
+    @Getter
+    private static JavaFxApplicationSupport instance;
+
+    @Getter
+    private SceneManager sceneManager;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void init() {
         springContext = new SpringApplicationBuilder(JavaFxApplicationSupport.class)
@@ -20,23 +31,27 @@ public class JavaFxApplicationSupport extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        try {
-            SceneManager sceneManager = springContext.getBean(SceneManager.class);
-            sceneManager.setPrimaryStage(primaryStage);
-            sceneManager.switchScene(SceneManager.SceneType.USER_LIST);
-            primaryStage.setTitle("Connexion");
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        instance = this;
+        sceneManager = springContext.getBean(SceneManager.class);
+
+        createScene(primaryStage);
     }
 
     @Override
-    public void stop() {
+    public void stop() throws Exception {
         springContext.stop();
+        super.stop();
+        System.exit(0);
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    private void createScene(Stage stage) {
+        try {
+            sceneManager.setPrimaryStage(stage);
+            sceneManager.switchScene(SceneManager.SceneType.HOME);
+            stage.setTitle("Connexion");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

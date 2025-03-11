@@ -1,3 +1,4 @@
+/*
 package com.mnov34.CUBES4solo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -5,10 +6,12 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+*/
 /**
  * @author Maël NOUVEL <br>
  * 02/2025
- **/
+ **//*
+
 @Configuration
 public class OpenApiConfig {
     @Bean
@@ -20,3 +23,4 @@ public class OpenApiConfig {
                         .description("API pour voir le contact des employées et administrer leur infos."));
     }
 }
+*/

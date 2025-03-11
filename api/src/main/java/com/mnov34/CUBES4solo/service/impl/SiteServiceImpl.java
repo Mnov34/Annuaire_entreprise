@@ -1,14 +1,15 @@
 package com.mnov34.CUBES4solo.service.impl;
 
-import com.mnov34.CUBES4solo.dto.SiteDto;
-import com.mnov34.CUBES4solo.mapper.SiteMapper;
+import com.mnov34.CUBES4solo.exception.OperationNotAllowedException;
 import com.mnov34.CUBES4solo.model.Site;
+import com.mnov34.CUBES4solo.repository.EmployeeRepository;
 import com.mnov34.CUBES4solo.repository.SiteRepository;
 import com.mnov34.CUBES4solo.service.SiteService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * @author Maël NOUVEL <br>
@@ -18,29 +19,45 @@ import java.util.stream.Collectors;
 public class SiteServiceImpl implements SiteService {
 
     private final SiteRepository siteRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public SiteServiceImpl(SiteRepository siteRepository) {
+    public SiteServiceImpl(SiteRepository siteRepository, EmployeeRepository employeeRepository) {
         this.siteRepository = siteRepository;
+        this.employeeRepository = employeeRepository;
     }
 
-    public List<SiteDto> getAllSites() {
-        return siteRepository.findAll().stream()
-                .map(SiteMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
+    public List<Site> getAllSites() {
+        return siteRepository.findAll();
     }
 
-    public SiteDto createSite(SiteDto siteDto) {
-        Site site = SiteMapper.INSTANCE.toEntity(siteDto);
-        return SiteMapper.INSTANCE.toDto(siteRepository.save(site));
+    public Optional<Site> getSiteById(Long id) {
+        return siteRepository.findById(id);
     }
 
-    public SiteDto updateSite(Long id, SiteDto siteDto) {
-        Site site = siteRepository.findById(id).orElseThrow(() -> new RuntimeException("Site not found"));
-        site.setSite(siteDto.getSite());
-        return SiteMapper.INSTANCE.toDto(siteRepository.save(site));
+    public Optional<Site> getSiteByName(String name) {
+        return siteRepository.findBySiteContainingIgnoreCase(name);
+    }
+
+    public Site createSite(Site site) {
+        return siteRepository.saveAndFlush(site);
+    }
+
+    public Site updateSite(Long id, Site site) {
+        Site existingSite = siteRepository.findById(id).orElseThrow(() -> new RuntimeException("Site not found"));
+        existingSite.setSite(site.getSite());
+        return siteRepository.saveAndFlush(existingSite);
     }
 
     public void deleteSite(Long id) {
+        Site site = siteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Site not found with id: " + id));
+
+        if (employeeRepository.existsBySite(site)) {
+            throw new OperationNotAllowedException(
+                    "Cannot delete site '" + site.getSite() + "' - it has associated employees"
+            );
+        }
+
         siteRepository.deleteById(id);
     }
 }
