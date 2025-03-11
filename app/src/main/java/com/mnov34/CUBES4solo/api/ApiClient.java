@@ -13,24 +13,13 @@ import java.util.List;
  * 02/2025
  **/
 public interface ApiClient {
+    // Employees
     @GET("/api/employees")
     Call<List<Employee>> getEmployees(
             @Query("search") String search,
             @Query("site") String site,
             @Query("service") String department
     );
-
-    @GET("/api/sites")
-    Call<List<Site>> getSites();
-
-    @GET("/api/sites/{id}")
-    Call<Site> getSiteById(@Path("id") String id);
-
-    @GET("/api/sites/{name}")
-    Call<Site> getSiteByName(@Path("name") String name);
-
-    @GET("/api/services")
-    Call<List<Department>> getServices();
 
     @POST("/api/employees")
     Call<Employee> createEmployee(@Body Employee employee);
@@ -40,4 +29,27 @@ public interface ApiClient {
 
     @DELETE("/api/employees/{id}")
     Call<Void> deleteEmployee(@Path("id") Long id);
+
+
+    // Sites
+    @GET("/api/sites")
+    Call<List<Site>> getSites();
+
+    @GET("/api/sites/{id}")
+    Call<Site> getSiteById(@Path("id") String id);
+
+    @GET("/api/sites/{name}")
+    Call<Site> getSiteByName(@Path("name") String name);
+
+    @DELETE("/api/sites/{id}")
+    Call<Void> deleteSite(@Path("id") Long id);
+
+
+    // Departments (Services)
+    @GET("/api/services")
+    Call<List<Department>> getServices();
+
+    @DELETE("/api/services/{id}")
+    Call<Void> deleteService(@Path("id") Long id);
+
 }

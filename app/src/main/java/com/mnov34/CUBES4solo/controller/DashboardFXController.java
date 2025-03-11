@@ -9,10 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,7 +22,7 @@ import java.util.ResourceBundle;
  * 10/03/2025
  **/
 @FXMLController
-public class DashboardController implements Initializable {
+public class DashboardFXController implements Initializable {
 
     @FXML
     private BorderPane root;
@@ -47,7 +44,7 @@ public class DashboardController implements Initializable {
     private boolean isPinned;
 
     @Autowired
-    public DashboardController(SceneManager sceneManager) {
+    public DashboardFXController(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 

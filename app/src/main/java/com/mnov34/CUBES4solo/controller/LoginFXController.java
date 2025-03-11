@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * 11/03/2025
  **/
 @FXMLController
-public class LoginController implements Initializable {
+public class LoginFXController implements Initializable {
 
     @FXML
     private TextField usernameField;
@@ -32,7 +32,7 @@ public class LoginController implements Initializable {
     private final SceneManager sceneManager;
 
     @Autowired
-    public LoginController(SceneManager sceneManager) {
+    public LoginFXController(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 

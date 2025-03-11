@@ -4,20 +4,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.mnov34.CUBES4solo.controller.SiteController">
+      fx:controller="com.mnov34.CUBES4solo.controller.DepartmentFXController">
     <SplitPane>
-        <TableView fx:id="SiteTable" prefHeight="200.0" prefWidth="200.0">
+        <TableView fx:id="departmentTable" prefHeight="200.0" prefWidth="200.0">
             <columns>
-                <TableColumn fx:id="siteIdColumn" text="ID"/>
-                <TableColumn fx:id="siteNameColumn" text="Nom"/>
+                <TableColumn fx:id="departmentIdColumn" text="ID"/>
+                <TableColumn fx:id="departmentNameColumn" text="Nom"/>
+                <TableColumn fx:id="editColumn" text="Modifier" styleClass="table-column"/>
+                <TableColumn fx:id="deleteColumn" text="Supprimer" styleClass="table-column"/>
             </columns>
         </TableView>
         <VBox spacing="15.0">
             <VBox>
                 <Label styleClass="form-label" text="Nom"/>
-                <TextField fx:id="siteNameField" promptText="Nom du site"/>
+                <TextField fx:id="departmentNameField" promptText="Nom du service"/>
             </VBox>
-            <Button fx:id="addButton" text="Ajouter" onAction="#handleAddSite" styleClass="button"/>
+            <Button fx:id="addButton" text="Ajouter" onAction="#handleAddDepartment" styleClass="button"/>
         </VBox>
     </SplitPane>
 </VBox>

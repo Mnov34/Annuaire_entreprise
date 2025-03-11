@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.mnov34.CUBES4solo.controller.EmployeeListController"
+      fx:controller="com.mnov34.CUBES4solo.controller.EmployeeListFXController"
       styleClass="container" spacing="10" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
     <HBox styleClass="toolbar" spacing="10">
         <TextField fx:id="searchField" promptText="Search by name" styleClass="search-field"/>

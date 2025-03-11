@@ -2,9 +2,7 @@ package com.mnov34.CUBES4solo.controller;
 
 import com.mnov34.CUBES4solo.model.Department;
 import com.mnov34.CUBES4solo.service.DepartmentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,14 +13,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/services")
 public class DepartmentController {
-    private final DepartmentService serviceService;
+    private final DepartmentService departmentService;
 
-    public DepartmentController(DepartmentService serviceService) {
-        this.serviceService = serviceService;
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
     }
 
     @GetMapping
     public List<Department> getAllSites() {
-        return serviceService.getAllDepartment();
+        return departmentService.getAllDepartment();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSiteById(@PathVariable Long id) {
+        departmentService.deleteDepartmentById(id);
     }
 }

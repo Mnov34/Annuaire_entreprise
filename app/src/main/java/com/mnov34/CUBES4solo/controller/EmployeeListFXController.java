@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  **/
 @Slf4j
 @FXMLController
-public class EmployeeListController implements Initializable {
+public class EmployeeListFXController implements Initializable {
     @FXML
     private TableView<Employee> userTable;
     @FXML
@@ -54,7 +54,7 @@ public class EmployeeListController implements Initializable {
 
     private Employee selectedEmployee;
 
-    public EmployeeListController(Retrofit retrofit) {
+    public EmployeeListFXController(Retrofit retrofit) {
         this.employeeApiService = retrofit.create(ApiClient.class);
     }
 
