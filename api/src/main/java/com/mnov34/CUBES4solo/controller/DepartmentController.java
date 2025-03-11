@@ -20,12 +20,22 @@ public class DepartmentController {
     }
 
     @GetMapping
-    public List<Department> getAllSites() {
+    public List<Department> getAllServices() {
         return departmentService.getAllDepartment();
     }
 
+    @PostMapping
+    public Department createService(@RequestBody Department department) {
+        return departmentService.createDepartment(department);
+    }
+
+    @PutMapping("/{id}")
+    public Department updateService(@PathVariable Long id, @RequestBody Department department) {
+        return departmentService.updateDepartment(id, department);
+    }
+
     @DeleteMapping("/{id}")
-    public void deleteSiteById(@PathVariable Long id) {
+    public void deleteServiceById(@PathVariable Long id) {
         departmentService.deleteDepartmentById(id);
     }
 }

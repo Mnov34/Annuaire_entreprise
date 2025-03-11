@@ -51,7 +51,7 @@ public class LoginFXController implements Initializable {
             messageLabel.setText("Login successful!");
             Platform.runLater(() -> sceneManager.loadView(SceneManager.SceneType.EMPLOYEE_LIST));
         } else {
-            messageLabel.setText("Invalid credentials. Please try again.");
+            messageLabel.setText("Invalid credentials.");
         }
     }
 

@@ -2,7 +2,6 @@ package com.mnov34.CUBES4solo.controller;
 
 import com.mnov34.CUBES4solo.annotation.FXMLController;
 import com.mnov34.CUBES4solo.api.ApiClient;
-import com.mnov34.CUBES4solo.model.Employee;
 import com.mnov34.CUBES4solo.model.Site;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -60,8 +59,8 @@ public class SiteFXController implements Initializable {
     }
 
     private void setupTableColumns() {
-        siteIdColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        siteNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        siteIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        siteNameColumn.setCellValueFactory(new PropertyValueFactory<>("site"));
         siteTable.setItems(sites);
     }
 
@@ -83,7 +82,6 @@ public class SiteFXController implements Initializable {
             }
         });
 
-        // Delete button column
         deleteColumn.setCellFactory(param -> new TableCell<>() {
             private final Button deleteButton = new Button("Delete");
 
@@ -120,39 +118,100 @@ public class SiteFXController implements Initializable {
                         selectedSite = null;
                         addButton.setText("Ajouter");
                     });
+                } else {
+                    showError("Failed to delete site", new RuntimeException("Response code: " + response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Site>> call, Throwable t) {
-                showError("Failed to load employees", t);
+                showError("Failed to load site", t);
             }
         });
     }
 
     @FXML
     private void handleAddSite() {
-        return;
+        if (selectedSite == null) {
+            addSite();
+        } else {
+            updateSite();
+        }
+    }
+
+    private void addSite() {
+        Site newSite = new Site();
+        newSite.setSite(siteNameField.getText());
+
+        siteApiService.createSite(newSite).enqueue(new Callback<Site>() {
+            @Override
+            public void onResponse(Call<Site> call, Response<Site> response) {
+                if (response.isSuccessful()) {
+                    Platform.runLater(() -> {
+                        refreshData();
+                        clearForm();
+                    });
+                } else {
+                    showError("Failed to add site", new RuntimeException("Response code: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Site> call, Throwable t) {
+                showError("Failed to add site", t);
+            }
+        });
+    }
+
+    private void updateSite() {
+        if (selectedSite == null) return;
+        selectedSite.setSite(siteNameField.getText());
+
+        siteApiService.updateSite(selectedSite.getId(), selectedSite).enqueue(new Callback<Site>() {
+            @Override
+            public void onResponse(Call<Site> call, Response<Site> response) {
+                if (response.isSuccessful()) {
+                    Platform.runLater(() -> {
+                        refreshData();
+                        clearForm();
+                    });
+                } else {
+                    showError("Failed to update site", new RuntimeException("Response code: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Site> call, Throwable t) {
+                showError("Failed to update site", t);
+            }
+        });
     }
 
     private void handleDeleteSite(Site site) {
-        siteApiService.dele(employee.getId()).enqueue(new Callback<>() {
+        siteApiService.deleteSite(site.getId()).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Platform.runLater(() -> refreshData());
                 } else {
-                    showError("Failed to delete employee", new RuntimeException("Response code: " + response.code()));
+                    showError("Failed to delete site", new RuntimeException("Response code: " + response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                showError("Failed to delete employee", t);
+                showError("Failed to delete site", t);
             }
         });
     }
 
+    private void clearForm() {
+        Platform.runLater(() -> {
+            siteNameField.clear();
+            selectedSite = null;
+            addButton.setText("Ajouter");
+        });
+    }
 
     private void showError(String message, Throwable throwable) {
         if (Platform.isFxApplicationThread()) {

@@ -1,7 +1,10 @@
-INSERT INTO users (email, password)
-VALUES ('alice', 'alice@', 'alice', 'roth', 'Paris', '555-0101'),
-       ('bob', 'bob@', 'bob', 'roth', 'Paris', '555-0102'),
-       ('carol', 'carol@', 'carol', 'roth', 'Nice', '555-0103'),
-       ('dave', 'dave@', 'dave', 'roth', 'Lille', '555-0104'),
-       ('eve', 'eve@', 'eve', 'roth', 'Toulouse', '555-0105'),
-       ('root', 'root', 'root', 'admin', 'Nantes', '555-3105');
+INSERT INTO users (email, password, role, employee_id)
+VALUES ('alice', '$2a$10$rSeitEtQO0Towy/2NorpQuJW95YHKBrBi9B6CZT7/hheb19T/0lK2','ROLE_GUEST', 6),
+       ('bob', '$2a$10$4Lwx5ZiovAo76ZHP23.WCOUMF39sqow66gYdvHBPpswotglyVdWci','ROLE_GUEST', 7),
+       ('carol', '$2a$10$rGp/NGTGBfdl6GDNyIRe6uGcknI5KwDK28Kg/78mTJsM4Dwcq3AKS','ROLE_GUEST', 8),
+       ('dave', '$2a$10$wINSs/KIR/eU8M4BNB3j7OnHjUQrt2oD8swiSFQVPiVo8yrqr3vRO','ROLE_GUEST', 9),
+       ('eve', '$2a$10$vIDvrPzIqeaD49SZe6s.auLKvkGWU9l7eO9HW5HmlyBiKhGKPHHmK','ROLE_ADMIN', 10),
+       ('root', '$2a$10$hzFWobG5aBIVuEuh.HitOe9AswoftjFbzNIUf7gLqlU3YiozGc5Ge','ROLE_ADMIN', 1);
+
+# "email" + @ = password
+# root = root

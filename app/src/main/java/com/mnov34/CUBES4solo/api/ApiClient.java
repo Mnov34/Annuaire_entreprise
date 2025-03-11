@@ -41,6 +41,12 @@ public interface ApiClient {
     @GET("/api/sites/{name}")
     Call<Site> getSiteByName(@Path("name") String name);
 
+    @POST("/api/sites")
+    Call<Site> createSite(@Body Site site);
+
+    @PUT("/api/sites/{id}")
+    Call<Site> updateSite(@Path("id") Long id, @Body Site site);
+
     @DELETE("/api/sites/{id}")
     Call<Void> deleteSite(@Path("id") Long id);
 
@@ -48,6 +54,12 @@ public interface ApiClient {
     // Departments (Services)
     @GET("/api/services")
     Call<List<Department>> getServices();
+
+    @POST("/api/services")
+    Call<Department> createService(@Body Department department);
+
+    @PUT("/api/services/{id}")
+    Call<Department> updateService(@Path("id") Long id, @Body Department department);
 
     @DELETE("/api/services/{id}")
     Call<Void> deleteService(@Path("id") Long id);
